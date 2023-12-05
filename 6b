@@ -1,0 +1,26 @@
+import os   # provides functions for interacting with the operating system
+import sys         
+import pathlib   # classes representing filesystem paths
+import zipfile   # provides tools to create, read, write, append, and list a ZIP file
+
+dirName = input("Enter Directory name that you want to backup : ")
+# check whether entered directory exist or not
+if not os.path.isdir(dirName):
+    print("Directory", dirName, "doesn't exists")
+    sys.exit(0)
+
+curDirectory = pathlib.Path(dirName)
+
+# open thenew zip folderwrite all the files from the given directory
+with zipfile.ZipFile("ex.zip","w") as  f:
+# rglob (“*”) is a function that's used to search for files that match a specific file pattern or name
+   for file_path in curDirectory.rglob("*"):
+     f.write(file_path, arcname=file_path.relative_to(curDirectory))
+print(file_path)   
+
+# to check entered directory is zipped or not
+
+if os.path.isfile("ex.zip"):
+print(“created successfully")
+else:
+    print("Error in creating zip archive")
